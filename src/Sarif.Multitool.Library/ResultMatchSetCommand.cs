@@ -11,8 +11,6 @@ using System.Linq;
 using Microsoft.CodeAnalysis.Sarif.Baseline.ResultMatching;
 using Microsoft.CodeAnalysis.Sarif.Driver;
 
-using Newtonsoft.Json;
-
 namespace Microsoft.CodeAnalysis.Sarif.Multitool
 {
     public class ResultMatchSetCommand : CommandBase
@@ -45,7 +43,7 @@ namespace Microsoft.CodeAnalysis.Sarif.Multitool
             string previousGroup = "";
             SarifLog previousLog = null, currentLog = null;
 
-            foreach (string filePath in Directory.GetFiles(options.FolderPath, "*.sarif"))
+            foreach (string filePath in _fileSystem.DirectoryGetFiles(options.FolderPath, "*.sarif").OrderBy(fileName => fileName))
             {
                 string fileName = Path.GetFileName(filePath);
                 string currentGroup = GetGroupName(fileName);
